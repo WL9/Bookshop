@@ -2,11 +2,11 @@ package com.example.william.xebiabookshop.data.models;
 
 import java.util.List;
 
-public class BooksAnswer {
+public class Answer {
 
-    private List<Book> books = null;
+    private List<Offer> offers = null;
 
-    public List<Book> getBooks() {
+    public List<Offer> getOffers() {
         return offers;
     }
 }
