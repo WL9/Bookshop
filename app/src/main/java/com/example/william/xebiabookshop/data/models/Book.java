@@ -26,7 +26,14 @@ public class Book {
         return cover;
     }
 
-    public List<String> getSynopsis() {
-        return synopsis;
+    public String getSynopsis() {
+        String summary = "";
+        for (String synop : synopsis)
+            summary += synop + "\n\n";
+        return summary;
+    }
+
+    public String getAuthor() {
+        return "J.K. Rowling";
     }
 }

@@ -5,11 +5,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.william.xebiabookshop.data.models.Book;
+
+import java.util.List;
+
 public class BookAdapter extends RecyclerView.Adapter<BookViewHolder>{
 
-    List<Book> listBook;
+    private List<Book> listBook;
+    private List<Book> shoppingCart;
 
-    public MyAdapter(List<Book> books) {
+    public BookAdapter(List<Book> books) {
         this.listBook = books;
     }
 
@@ -19,11 +24,17 @@ public class BookAdapter extends RecyclerView.Adapter<BookViewHolder>{
         return new BookViewHolder(view);
     }
 
-    //c'est ici que nous allons remplir notre cellule avec le texte/image de chaque MyObjects
     @Override
-    public void onBindViewHolder(BookViewHolder myViewHolder, int position) {
-        Book book = listBook.get(position);
-        myViewHolder.bind(book);
+    public void onBindViewHolder(BookViewHolder bookViewHolder, int position) {
+        final Book book = listBook.get(position);
+        bookViewHolder.bind(book);
+
+        bookViewHolder.getPurchaseButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                shoppingCart.add(book);
+            }
+        });
     }
 
     @Override
@@ -31,4 +42,12 @@ public class BookAdapter extends RecyclerView.Adapter<BookViewHolder>{
         return listBook.size();
     }
 
+    public void updateBooks(List<Book> items) {
+        listBook = items;
+        notifyDataSetChanged();
+    }
+
+    public List<Book> getShoppingCart (){
+        return shoppingCart;
+    }
 }
