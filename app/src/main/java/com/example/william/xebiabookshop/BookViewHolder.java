@@ -1,10 +1,13 @@
 package com.example.william.xebiabookshop;
 
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.william.xebiabookshop.data.models.Book;
 import com.squareup.picasso.Picasso;
 
 public class BookViewHolder extends RecyclerView.ViewHolder{
@@ -14,6 +17,8 @@ public class BookViewHolder extends RecyclerView.ViewHolder{
     private TextView priceView;
     private TextView synopsisView;
     private ImageView coverView;
+    private CardView bookCardView;
+    private Button purchaseButton;
 
     public BookViewHolder(View itemView) {
         super(itemView);
@@ -23,13 +28,35 @@ public class BookViewHolder extends RecyclerView.ViewHolder{
         priceView = itemView.findViewById(R.id.price);
         synopsisView = itemView.findViewById(R.id.synopsis);
         coverView = itemView.findViewById(R.id.cover);
+        bookCardView = itemView.findViewById(R.id.bookCard);
+        purchaseButton = itemView.findViewById(R.id.addtochart);
+
+        bookCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (synopsisView.getVisibility() == View.GONE){
+                    synopsisView.setVisibility(View.VISIBLE);
+                    purchaseButton.setVisibility(View.VISIBLE);
+                }
+                else {
+                    synopsisView.setVisibility(View.GONE);
+                    purchaseButton.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     public void bind(Book book){
         titleView.setText(book.getTitle());
         authorView.setText(book.getAuthor());
-        priceView.setText(book.getPrice());
+        priceView.setText(book.getPrice().toString() + " €");
         synopsisView.setText(book.getSynopsis());
-        Picasso.get(coverView.getContext()).load(book.getImageUrl()).centerCrop().fit().into(coverView);
+        Picasso.get().load(book.getCover()).resize(340,500).into(coverView);
     }
+
+    public Button getPurchaseButton(){
+        return purchaseButton;
+    }
+
+
 }

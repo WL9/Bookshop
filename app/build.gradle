@@ -34,11 +34,10 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.0'
     compile 'com.squareup.retrofit2:converter-gson:2.2.0'
 
-<<<<<<< HEAD
-=======
 // Picasso
     compile 'com.squareup.picasso:picasso:2.71828'
+
     implementation 'com.android.support:cardview-v7:27.1.1'
     implementation 'com.android.support:recyclerview-v7:27.1.1'
->>>>>>> 71665ce... First View : book list
+
 }
