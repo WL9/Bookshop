@@ -1,6 +1,6 @@
 package com.example.william.xebiabookshop.data.remote;
 
-import com.example.william.xebiabookshop.data.models.Answer;
+import com.example.william.xebiabookshop.data.models.OfferList;
 import com.example.william.xebiabookshop.data.models.Book;
 
 import java.util.List;
@@ -16,9 +16,9 @@ public interface Service {
     Call<List<Book>> getBooks();
 
     @GET("/books/c8fabf68-8374-48fe-a7ea-a00ccd07afff,a460afed-e5e7-4e39-a39d-c885c05db861/commercialOffers")
-    Call<Answer> getOffers();
+    Call<OfferList> getOffers();
 
     @GET("/books/{isbn}/commercialOffers")
-    Call<Answer> getOffers(@Path("isbn") String isbn);
+    Call<OfferList> getOffers(@Path("isbn") String isbn);
 
 }

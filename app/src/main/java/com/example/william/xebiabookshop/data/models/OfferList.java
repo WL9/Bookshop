@@ -2,7 +2,7 @@ package com.example.william.xebiabookshop.data.models;
 
 import java.util.List;
 
-public class Answer {
+public class OfferList {
 
     private List<Offer> offers = null;
 

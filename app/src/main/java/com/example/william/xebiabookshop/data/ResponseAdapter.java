@@ -1,9 +1,8 @@
 package com.example.william.xebiabookshop.data;
 
-import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.william.xebiabookshop.data.models.Answer;
+import com.example.william.xebiabookshop.data.models.OfferList;
 import com.example.william.xebiabookshop.data.models.Book;
 import com.example.william.xebiabookshop.data.models.Offer;
 import com.example.william.xebiabookshop.data.remote.Service;
@@ -31,9 +30,9 @@ public class ResponseAdapter {
                     mBooks = response.body();
                 }
                 else {
-//                    int statusCode = response.code();
-                    // handle request errors depending on status code
-                    Log.d("MainActivity", "error loading books from API");
+                    int statusCode = response.code();
+                    // TO DO : handle request errors depending on status code
+                    Log.d("MainActivity", "error loading books from API" + statusCode);
                 }
             }
 
@@ -53,20 +52,21 @@ public class ResponseAdapter {
                 reference += ", " + isbn;
         }
 
-        mService.getOffers(reference).enqueue(new Callback<Answer>() {
-            public void onResponse(Call<Answer> call, Response<Answer> response) {
+        mService.getOffers(reference).enqueue(new Callback<OfferList>() {
+            public void onResponse(Call<OfferList> call, Response<OfferList> response) {
 
                 if(response.isSuccessful()) {
                     Log.d("MainActivity", "posts loaded from API");
                     mOffers = response.body().getOffers();
                 }
-//                else {
-//                    int statusCode  = response.code();
-                    // handle request errors depending on status code
-//                }
+                else {
+                    int statusCode = response.code();
+                    // TO DO : handle request errors depending on status code
+                    Log.d("MainActivity", "error loading books from API" + statusCode);
+                }
             }
 
-            public void onFailure(Call<Answer> call, Throwable t) {
+            public void onFailure(Call<OfferList> call, Throwable t) {
                 //            showErrorMessage();
                 Log.d("MainActivity", "error loading offers from API");
 
