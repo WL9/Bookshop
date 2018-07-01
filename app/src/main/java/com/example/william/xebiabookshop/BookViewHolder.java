@@ -29,7 +29,7 @@ public class BookViewHolder extends RecyclerView.ViewHolder{
         synopsisView = itemView.findViewById(R.id.synopsis);
         coverView = itemView.findViewById(R.id.cover);
         bookCardView = itemView.findViewById(R.id.bookCard);
-        purchaseButton = itemView.findViewById(R.id.addtochart);
+        purchaseButton = itemView.findViewById(R.id.addtocart);
 
         bookCardView.setOnClickListener(new View.OnClickListener() {
             @Override
