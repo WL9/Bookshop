@@ -1,26 +1,28 @@
 package com.example.william.xebiabookshop;
 
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import com.example.william.xebiabookshop.data.ApiUtils;
-import com.example.william.xebiabookshop.data.models.Book;
-import com.example.william.xebiabookshop.data.models.OfferList;
-import com.example.william.xebiabookshop.data.remote.Service;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 
 public class MainActivity extends AppCompatActivity {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
+        ViewPager viewPager = findViewById(R.id.pager);
+        PageAdapter adapter = new PageAdapter(getSupportFragmentManager());
+
+        adapter.addFragment(new TabShop(), "Boutique");
+        adapter.addFragment(new TabCart(), "Panier");
+        viewPager.setAdapter(adapter);
+
+        TabLayout tabLayout = findViewById(R.id.tab_layout);
+        tabLayout.setupWithViewPager(viewPager);
+    }
+/*
     private Service mService = ApiUtils.getService();
     private RecyclerView recyclerView;
     private BookAdapter bookAdapter;
@@ -95,4 +97,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+    */
 }
