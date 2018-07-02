@@ -1,5 +1,6 @@
-package com.example.william.xebiabookshop;
+package com.example.william.xebiabookshop.shopfragment;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.william.xebiabookshop.R;
+import com.example.william.xebiabookshop.SharedViewModel;
 import com.example.william.xebiabookshop.data.ApiUtils;
 import com.example.william.xebiabookshop.data.models.Book;
 import com.example.william.xebiabookshop.data.remote.Service;
@@ -26,6 +29,9 @@ public class TabShop extends Fragment{
     private Service mService = ApiUtils.getService();
     private RecyclerView recyclerView;
     private BookAdapter bookAdapter;
+    private SharedViewModel model;
+    private List<Book> cart;
+
 
     public TabShop() {
 
@@ -34,18 +40,25 @@ public class TabShop extends Fragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        model = ViewModelProviders.of(getActivity()).get(SharedViewModel.class);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View shopView = inflater.inflate(R.layout.fragment_shop, container, false);
-        mService = ApiUtils.getService();
         recyclerView = shopView.findViewById(R.id.recyclerView);
-        bookAdapter = new BookAdapter(new ArrayList<Book>(0));
+        bookAdapter = new BookAdapter(new ArrayList<Book>(0), new BookAdapter.AddCartClickListener() {
+            @Override
+            public void addCartOnClick(View v, List<Book> shoppingCart) {
+                cart = shoppingCart;
+                model.select(cart);
+            }
+        });
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(bookAdapter);
+        bookAdapter.notifyDataSetChanged();
         loadBooks();
 
         return shopView;

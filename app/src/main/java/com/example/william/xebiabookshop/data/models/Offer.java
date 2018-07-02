@@ -3,13 +3,18 @@ package com.example.william.xebiabookshop.data.models;
 public class Offer {
 
     private String type;
-    private Integer value;
+    private int value;
+    private int sliceValue;
 
     public String getType() {
         return type;
     }
 
-    public Integer getValue() {
+    public int getValue() {
         return value;
+    }
+
+    public int getSliceValue() {
+        return sliceValue;
     }
 }

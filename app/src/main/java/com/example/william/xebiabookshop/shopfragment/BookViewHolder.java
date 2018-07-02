@@ -1,4 +1,4 @@
-package com.example.william.xebiabookshop;
+package com.example.william.xebiabookshop.shopfragment;
 
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.william.xebiabookshop.R;
 import com.example.william.xebiabookshop.data.models.Book;
 import com.squareup.picasso.Picasso;
 
@@ -58,5 +59,9 @@ public class BookViewHolder extends RecyclerView.ViewHolder{
         return purchaseButton;
     }
 
+    public void closeCard () {
+        synopsisView.setVisibility(View.GONE);
+        purchaseButton.setVisibility(View.GONE);
+    }
 
 }
