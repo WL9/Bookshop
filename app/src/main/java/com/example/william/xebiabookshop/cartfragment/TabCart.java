@@ -35,6 +35,7 @@ public class TabCart extends Fragment {
 
     private List<Book> shoppingList = new ArrayList<>();
     private List<Offer> proposedOffers = new ArrayList<>();
+    private int [] shoppingQuantity;
 
     private TextView totalCart;
     private TextView reduction;
@@ -42,7 +43,6 @@ public class TabCart extends Fragment {
 
 
     public TabCart() {
-
     }
 
     @Override
@@ -55,6 +55,7 @@ public class TabCart extends Fragment {
             public void onChanged(List<Book> books) {
                 shoppingList = books;
                 loadOffers();
+                offerAdapter.updateBooks(shoppingList);
                 updateCartView();
             }
         });
@@ -63,9 +64,15 @@ public class TabCart extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        offerAdapter = new OfferAdapter(shoppingList, new OfferAdapter.RemoveFromCartClickListener() {
+        offerAdapter = new OfferAdapter(getContext(), shoppingList, new OfferAdapter.AdapterEventListener() {
             @Override
             public void removeFromCartOnClick() {
+                offerAdapter.updateBooks(shoppingList);
+                updateCartView();
+            }
+
+            @Override
+            public void modifiedQuantity() {
                 updateCartView();
             }
         });
@@ -80,6 +87,7 @@ public class TabCart extends Fragment {
         reducedPrice = cartView.findViewById(R.id.reducedprice);
 
         loadOffers();
+        offerAdapter.updateBooks(shoppingList);
         updateCartView();
 
         return cartView;
@@ -122,9 +130,11 @@ public class TabCart extends Fragment {
 
     float getTotalPrice () {
         float totalPrice = 0;
-        for (Book book : shoppingList)
-            totalPrice += book.getPrice();
-
+        int i=0;
+        for (Book book : shoppingList) {
+            totalPrice += book.getPrice() * shoppingQuantity[i];
+            i+=1;
+        }
         return totalPrice;
     }
 
@@ -166,6 +176,7 @@ public class TabCart extends Fragment {
             Log.d("CartFragment", "Offer : " + offer.getType() + " " + offer.getValue());
         }
 
+        shoppingQuantity = offerAdapter.getShoppingQuantity();
         float valueTotalCart = getTotalPrice();
         float valueReducedPrice = getBestOffer();
         float valueReduction = valueTotalCart - valueReducedPrice;
@@ -173,6 +184,5 @@ public class TabCart extends Fragment {
         totalCart.setText(String.format("%.2f",valueTotalCart) + "€");
         reduction.setText("- " + String.format("%.2f",valueReduction) + "€");
         reducedPrice.setText(String.format("%.2f",valueReducedPrice) + "€");
-        offerAdapter.updateBooks(shoppingList);
     }
 }
