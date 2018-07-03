@@ -73,14 +73,12 @@ public class TabShop extends Fragment{
                 }
                 else {
                     int statusCode = response.code();
-                    // TO DO : handle request errors depending on status code
                     Log.d("MainActivity", "error loading books from API" + statusCode);
                 }
             }
 
             public void onFailure(Call<List<Book>> call, Throwable t) {
                 Log.d("MainActivity", "error loading books from API");
-
             }
         });
     }

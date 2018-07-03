@@ -6,8 +6,10 @@
     android:id="@+id/overviewcard"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="10dp"
-    android:layout_marginVertical="5dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
     android:clickable="false"
 
     book_view:cardBackgroundColor="@android:color/white"
@@ -27,14 +29,14 @@
             android:layout_height="wrap_content"
             book_view:srcCompat="@mipmap/ic_launcher"
             android:layout_weight="1"
-            android:layout_marginVertical="5dp"/>
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"/>
 
         <TextView
             android:id="@+id/overviewtitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="TextView"
             android:textStyle="bold"
             android:layout_weight="1"/>
 
@@ -56,7 +58,6 @@
                 android:id="@+id/overviewprice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0€ l'unité"
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="1"/>
 
@@ -66,10 +67,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_weight="1"
-                android:text="Retirer"
+                android:text="@string/remove_button"
                 android:textColor="@android:color/holo_blue_dark"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:layout_weight="1"/>
 
         </LinearLayout>
 

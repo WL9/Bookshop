@@ -31,7 +31,7 @@ import retrofit2.Response;
 public class TabCart extends Fragment {
 
     private Service mService = ApiUtils.getService();
-    private OfferAdapter offerAdapter;
+    private OverviewAdapter overviewAdapter;
 
     private List<Book> shoppingList = new ArrayList<>();
     private List<Offer> proposedOffers = new ArrayList<>();
@@ -55,7 +55,7 @@ public class TabCart extends Fragment {
             public void onChanged(List<Book> books) {
                 shoppingList = books;
                 loadOffers();
-                offerAdapter.updateBooks(shoppingList);
+                overviewAdapter.updateBooks(shoppingList);
                 updateCartView();
             }
         });
@@ -64,10 +64,11 @@ public class TabCart extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        offerAdapter = new OfferAdapter(getContext(), shoppingList, new OfferAdapter.AdapterEventListener() {
+        overviewAdapter = new OverviewAdapter(getContext(), shoppingList, new OverviewAdapter.AdapterEventListener() {
             @Override
             public void removeFromCartOnClick() {
-                offerAdapter.updateBooks(shoppingList);
+                overviewAdapter.updateBooks(shoppingList);
+                loadOffers();
                 updateCartView();
             }
 
@@ -80,14 +81,14 @@ public class TabCart extends Fragment {
         View cartView = inflater.inflate(R.layout.fragment_cart, container, false);
         RecyclerView recyclerView = cartView.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(offerAdapter);
+        recyclerView.setAdapter(overviewAdapter);
 
         totalCart = cartView.findViewById(R.id.totalcart);
         reduction = cartView.findViewById(R.id.reduction);
         reducedPrice = cartView.findViewById(R.id.reducedprice);
 
         loadOffers();
-        offerAdapter.updateBooks(shoppingList);
+        overviewAdapter.updateBooks(shoppingList);
         updateCartView();
 
         return cartView;
@@ -114,7 +115,6 @@ public class TabCart extends Fragment {
                 }
                 else {
                     int statusCode = response.code();
-                    // TO DO : handle request errors depending on status code
                     proposedOffers = new ArrayList<>();
                     Log.d("CartFragment", "error loading offers from API" + statusCode);
                 }
@@ -160,29 +160,31 @@ public class TabCart extends Fragment {
         float totalPrice = getTotalPrice();
         float bestPrice = totalPrice;
 
-        for (Offer offer : proposedOffers){
-            float currentOffer = applyOffer(offer, totalPrice);
-            if (currentOffer < bestPrice)
-                bestPrice = currentOffer;
+        if (proposedOffers.size() > 0) {
+            for (Offer offer : proposedOffers) {
+                float currentOffer = applyOffer(offer, totalPrice);
+                if (currentOffer < bestPrice)
+                    bestPrice = currentOffer;
+            }
         }
+        else
+            bestPrice = totalPrice;
         return bestPrice;
     }
 
 
     void updateCartView (){
-        Log.d("CartFragment", "Number of books : " + shoppingList.size());
-        Log.d("CartFragment", "Number of offers : " + proposedOffers.size());
-        for (Offer offer : proposedOffers){
-            Log.d("CartFragment", "Offer : " + offer.getType() + " " + offer.getValue());
-        }
-
-        shoppingQuantity = offerAdapter.getShoppingQuantity();
+        shoppingQuantity = overviewAdapter.getShoppingQuantity();
         float valueTotalCart = getTotalPrice();
         float valueReducedPrice = getBestOffer();
         float valueReduction = valueTotalCart - valueReducedPrice;
 
-        totalCart.setText(String.format("%.2f",valueTotalCart) + "€");
-        reduction.setText("- " + String.format("%.2f",valueReduction) + "€");
-        reducedPrice.setText(String.format("%.2f",valueReducedPrice) + "€");
+        String txtValueTotalCart = String.format("%.2f",valueTotalCart) + "€";
+        String txtReduction = "- " + String.format("%.2f",valueReduction) + "€";
+        String txtReducedPrice = String.format("%.2f",valueReducedPrice) + "€";
+
+        totalCart.setText(txtValueTotalCart);
+        reduction.setText(txtReduction);
+        reducedPrice.setText(txtReducedPrice);
     }
 }

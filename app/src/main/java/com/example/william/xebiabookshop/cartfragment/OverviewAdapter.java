@@ -13,14 +13,15 @@ import com.example.william.xebiabookshop.data.models.Book;
 import java.util.List;
 
 
-public class OfferAdapter extends RecyclerView.Adapter<OverviewViewHolder>{
+public class OverviewAdapter extends RecyclerView.Adapter<OverviewViewHolder>{
 
-    private Context context;
     private List<Book> shoppingCart;
     private int [] shoppingQuantity;
+
+    private Context context;
     public AdapterEventListener adapterEventListener;
 
-    public OfferAdapter(Context context, List<Book> books, AdapterEventListener listener) {
+    public OverviewAdapter(Context context, List<Book> books, AdapterEventListener listener) {
         this.context = context;
         shoppingCart = books;
         shoppingQuantity = new int[shoppingCart.size()];
@@ -39,13 +40,24 @@ public class OfferAdapter extends RecyclerView.Adapter<OverviewViewHolder>{
     @Override
     public void onBindViewHolder(final OverviewViewHolder overviewViewHolder, final int bookPosition) {
         final Book book = shoppingCart.get(bookPosition);
-        overviewViewHolder.bind(book);
+        overviewViewHolder.bind(book, shoppingQuantity[bookPosition]);
 
         overviewViewHolder.getRemoveButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 shoppingCart.remove(bookPosition);
                 notifyDataSetChanged();
+
+                int [] newQuantity = new int [shoppingQuantity.length-1];
+                int j =0;
+                for (int i = 0; i<shoppingQuantity.length;i++){
+                    if (i != bookPosition) {
+                        newQuantity[j] = shoppingQuantity[i];
+                        j++;
+                    }
+                }
+                shoppingQuantity = newQuantity;
+
                 adapterEventListener.removeFromCartOnClick();
             }
         });
@@ -73,9 +85,16 @@ public class OfferAdapter extends RecyclerView.Adapter<OverviewViewHolder>{
     public void updateBooks(List<Book> items) {
         shoppingCart = items;
         notifyDataSetChanged();
-        shoppingQuantity = new int[shoppingCart.size()];
-        for (int i=0; i<shoppingQuantity.length; i++){
-            shoppingQuantity[i]=1;
+
+        if (shoppingCart.size()>shoppingQuantity.length) {
+            int[] newQuantity = new int[shoppingCart.size()];
+            for (int i=0; i<newQuantity.length;i++){
+                if (i<shoppingQuantity.length)
+                    newQuantity[i]=shoppingQuantity[i];
+                else
+                    newQuantity[i] = 1;
+            }
+            shoppingQuantity = newQuantity;
         }
     }
 

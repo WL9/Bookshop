@@ -46,10 +46,12 @@ public class OverviewViewHolder extends RecyclerView.ViewHolder {
         quantitySpinner.setAdapter(adapter);
     }
 
-    public void bind(Book book){
+    public void bind(Book book, int quantity){
         titleOverview.setText(book.getTitle());
-        priceOverview.setText(book.getPrice().toString() + " €/unité");
+        String txtPrice = book.getPrice().toString() + context.getString(R.string.per_unit);
+        priceOverview.setText(txtPrice);
         Picasso.get().load(book.getCover()).resize(170,250).into(imageOverview);
+        quantitySpinner.setSelection(quantity-1);
         }
 
     public Button getRemoveButton(){

@@ -19,8 +19,8 @@ public class MainActivity extends AppCompatActivity {
         PageAdapter adapter = new PageAdapter(getSupportFragmentManager());
 
 
-        adapter.addFragment(new TabShop(), "Boutique");
-        adapter.addFragment(new TabCart(), "Panier");
+        adapter.addFragment(new TabShop(), getString(R.string.menu_shop));
+        adapter.addFragment(new TabCart(), getString(R.string.menu_cart));
         viewPager.setAdapter(adapter);
 
         TabLayout tabLayout = findViewById(R.id.tab_layout);

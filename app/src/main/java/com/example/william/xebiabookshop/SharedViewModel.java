@@ -10,7 +10,7 @@ import java.util.List;
 
 
 public class SharedViewModel extends ViewModel {
-    private final MutableLiveData<List<Book>> selected = new MutableLiveData<List<Book>>();
+    private final MutableLiveData<List<Book>> selected = new MutableLiveData<>();
 
     public void select(List<Book> books){
         selected.setValue(books);

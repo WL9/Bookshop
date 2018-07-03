@@ -1,4 +1,14 @@
 <resources>
     <string name="app_name">XebiaBookshop</string>
     <string name="action_settings">Settings</string>
+
+    <string name="menu_shop">Boutique</string>
+    <string name="menu_cart">Panier</string>
+
+    <string name="per_unit"> €/unité</string>
+    <string name="remove_button">Retirer</string>
+    <string name="add_button">Ajouter au panier</string>
+    <string name="price_text">Total panier</string>
+    <string name="reduction_text">Reduction</string>
+    <string name="total_text">Total</string>
 </resources>
